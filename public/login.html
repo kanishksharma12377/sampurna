@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sampurna ERP Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        maroon: '#800000',
+                        'maroon-dark': '#660000',
+                        'gray-light': '#f5f5f5',
+                        'gray-dark': '#333333',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Student login uses simple Admission ID input -->
+
+    <!-- Simple inline login logic -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const roleSelect = document.getElementById('role');
+            const adminFields = document.getElementById('adminFields');
+            const studentFields = document.getElementById('studentFields');
+            const loginError = document.getElementById('loginError');
+
+            roleSelect.addEventListener('change', () => {
+                const role = roleSelect.value;
+                if (role === 'admin') {
+                    adminFields.classList.remove('hidden');
+                    studentFields.classList.add('hidden');
+                } else if (role === 'student') {
+                    adminFields.classList.add('hidden');
+                    studentFields.classList.remove('hidden');
+                } else {
+                    adminFields.classList.add('hidden');
+                    studentFields.classList.add('hidden');
+                }
+                loginError.classList.add('hidden');
+            });
+        });
+
+        function goLogin() {
+            const role = document.getElementById('role').value;
+            const loginError = document.getElementById('loginError');
+            loginError.classList.add('hidden');
+            if (!role) {
+                alert('Please select a role first');
+                return;
+            }
+            if (role === 'student') {
+                const input = document.getElementById('studentIdLogin');
+                const id = input ? input.value.trim() : '';
+                if (!id) {
+                    loginError.textContent = 'Please enter your Admission ID.';
+                    loginError.classList.remove('hidden');
+                    return;
+                }
+                try { sessionStorage.setItem('studentAdmissionId', id); } catch (_) {}
+                window.location.href = `student-panel.html?id=${encodeURIComponent(id)}`;
+                return;
+            }
+            if (role === 'admin') {
+                const username = document.getElementById('adminUsername').value.trim();
+                const password = document.getElementById('adminPassword').value.trim();
+                if (username === 'admin' && password === 'admin') {
+                    window.location.href = 'admin-panel.html';
+                } else {
+                    loginError.textContent = 'Invalid admin credentials.';
+                    loginError.classList.remove('hidden');
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white rounded-lg shadow-lg p-8 w-full max-w-md border-2 border-maroon">
+        <h2 class="text-3xl font-bold text-maroon mb-6 text-center">Sampurna ERP Login</h2>
+        <form id="loginForm" class="space-y-6">
+            <div>
+                <label for="role" class="block text-gray-700 font-medium mb-2">Login as</label>
+                <select id="role" name="role" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-maroon outline-none transition-colors" required>
+                    <option value="">Select Role</option>
+                    <option value="admin">Admin</option>
+                    <option value="student">Student</option>
+                </select>
+            </div>
+            <div id="adminFields" class="hidden">
+                <label for="adminUsername" class="block text-gray-700 font-medium mb-2">Admin Username</label>
+                <input type="text" id="adminUsername" name="adminUsername" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-maroon outline-none transition-colors" placeholder="admin" required>
+                <label for="adminPassword" class="block text-gray-700 font-medium mt-4 mb-2">Admin Password</label>
+                <input type="password" id="adminPassword" name="adminPassword" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-maroon outline-none transition-colors" placeholder="admin" required>
+            </div>
+            <div id="studentFields" class="hidden">
+                <label for="studentIdLogin" class="block text-gray-700 font-medium mb-2">Enter your Admission ID</label>
+                <input id="studentIdLogin" type="text" class="w-full p-3 rounded-lg border-2 border-gray-300 focus:border-maroon outline-none transition-colors" placeholder="e.g., SMPRNA-0001-ABCD" />
+                <p class="text-sm text-gray-600 mt-2">Your Admin can share your Admission ID.</p>
+            </div>
+            <button type="button" onclick="goLogin()" class="w-full bg-maroon text-white font-bold py-3 px-6 rounded-lg transition-colors hover:bg-maroon-dark focus:outline-none focus:ring-4 focus:ring-maroon-300">Login</button>
+        </form>
+        <div id="loginError" class="text-red-600 font-semibold mt-4 hidden text-center"></div>
+    </div>
+</body>
+</html>

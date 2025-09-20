@@ -1,0 +1,16 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Demo: allow reads and writes under artifacts/smapurna-e9c2b/public/data
+    match /artifacts/smapurna-e9c2b/public/data/{document=**} {
+      allow read: if true;
+      allow write: if true; // Demo-only. Use emulator locally. Do NOT use in production.
+    }
+
+    // Elsewhere: read-only
+    match /{document=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+  }
+}

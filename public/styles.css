@@ -1,0 +1,6 @@
+/* Global styles extracted from index.html */
+body { font-family: 'Inter', sans-serif; }
+.scrollbar-hide::-webkit-scrollbar { display: none; }
+.scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* Placeholder for additional custom styles */

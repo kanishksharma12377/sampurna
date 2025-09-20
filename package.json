@@ -1,0 +1,15 @@
+{
+  "dependencies": {
+    "body-parser": "^2.2.0",
+    "express": "^5.1.0",
+    "fs": "^0.0.1-security",
+    "pdfkit": "^0.17.2",
+    "firebase-admin": "^12.5.0"
+  },
+  "scripts": {
+    "seed:firestore": "node scripts/seed-firestore.js",
+    "start:server": "node server.js",
+    "emulators": "firebase emulators:start --only firestore --import=.firebase-emulator --export-on-exit",
+    "emulators:once": "firebase emulators:start --only firestore"
+  }
+}
